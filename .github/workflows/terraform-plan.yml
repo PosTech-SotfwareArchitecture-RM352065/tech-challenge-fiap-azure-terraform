@@ -10,6 +10,12 @@ jobs:
     name: 'Azure - Terraform Plan'
     runs-on: ubuntu-latest
 
+    env:
+      ARM_CLIENT_ID: ${{ secrets.AZURE_MAIN_GROUP_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.AZURE_MAIN_GROUP_CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_MAIN_GROUP_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.AZURE_MAIN_GROUP_TENANT_ID }}
+
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     # Set the working directory to main for the config files
     defaults:
@@ -26,12 +32,6 @@ jobs:
       uses: hashicorp/setup-terraform@v2
       with:
         terraform_version: 1.7.2
-
-    # Logs in with your Azure credentials
-    - name: Azure login
-      uses: azure/login@v1.4.6
-      with:
-        creds: ${{ secrets.AZURE_MAIN_GROUP_SERVICE_PRINCIPAL_CREDS }}
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
