@@ -1,0 +1,1 @@
+az ad sp create-for-rbac --name github-service-principal --role owner --scope /subscriptions/7c8f5667-0066-47d3-addc-2fa0f9d2d4e3 --sdk-auth
