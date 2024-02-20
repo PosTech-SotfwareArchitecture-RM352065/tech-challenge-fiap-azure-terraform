@@ -14,8 +14,15 @@ terraform {
 }
 
 provider "azurerm" {
-  features {}
+  features {
+    key_vault {
+      purge_soft_delete_on_destroy    = true
+      recover_soft_deleted_key_vaults = true
+    }
+  }
 }
+
+data "azurerm_client_config" "current_config" {}
 
 resource "azurerm_resource_group" "main_group" {
   name     = "fiap-tech-challenge-main-group"
@@ -42,4 +49,33 @@ resource "azurerm_storage_container" "storage_containe_terraform" {
   name                  = "sanduba-terraform-storage-container"
   storage_account_name  = azurerm_storage_account.storage_account_terraform.name
   container_access_type = "private"
+}
+
+resource "azurerm_key_vault" "key_vault" {
+  name                        = "fiap-tech-key-vault"
+  location                    = azurerm_resource_group.main_group.location
+  resource_group_name         = azurerm_resource_group.main_group.name
+  enabled_for_disk_encryption = true
+  tenant_id                   = data.azurerm_client_config.current_config.tenant_id
+  soft_delete_retention_days  = 7
+  purge_protection_enabled    = false
+
+  sku_name = "standard"
+
+  access_policy {
+    tenant_id = data.azurerm_client_config.current_config.tenant_id
+    object_id = data.azurerm_client_config.current_config.object_id
+
+    key_permissions = [
+      "Get",
+    ]
+
+    secret_permissions = [
+      "Get",
+    ]
+
+    storage_permissions = [
+      "Get",
+    ]
+  }
 }
