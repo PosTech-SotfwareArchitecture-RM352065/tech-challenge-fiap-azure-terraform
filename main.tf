@@ -45,7 +45,7 @@ resource "azurerm_storage_account" "storage_account_terraform" {
   }
 }
 
-resource "azurerm_storage_container" "storage_containe_terraform" {
+resource "azurerm_storage_container" "storage_container_terraform" {
   name                  = "sanduba-terraform-storage-container"
   storage_account_name  = azurerm_storage_account.storage_account_terraform.name
   container_access_type = "private"
@@ -77,5 +77,47 @@ resource "azurerm_key_vault" "key_vault" {
     storage_permissions = [
       "Get",
     ]
+  }
+
+  tags = {
+    environment = azurerm_resource_group.main_group.tags["environment"]
+  }
+}
+
+resource "azurerm_virtual_network" "virtual_network" {
+  name                = "fiap-tech-challenge-network"
+  resource_group_name = azurerm_resource_group.main_group.name
+  location            = azurerm_resource_group.main_group.location
+  address_space       = ["10.254.0.0/16"]
+
+  tags = {
+    environment = azurerm_resource_group.main_group.tags["environment"]
+  }
+}
+
+resource "azurerm_subnet" "api_gateway_subnet" {
+  name                 = "fiap-tech-challenge-gateway-subnet"
+  resource_group_name  = azurerm_virtual_network.virtual_network.resource_group_name
+  virtual_network_name = azurerm_virtual_network.virtual_network.name
+  address_prefixes     = ["10.254.0.0/24"]
+}
+
+resource "azurerm_subnet" "api_auth_subnet" {
+  name                 = "fiap-tech-challenge-api-subnet"
+  resource_group_name  = azurerm_virtual_network.virtual_network.resource_group_name
+  virtual_network_name = azurerm_virtual_network.virtual_network.name
+  address_prefixes     = ["10.254.1.0/24"]
+}
+
+resource "azurerm_public_ip" "public_ip" {
+  name                = "fiap-tech-challenge-public-ip"
+  resource_group_name = azurerm_resource_group.main_group.name
+  location            = azurerm_resource_group.main_group.location
+  allocation_method   = "Static"
+  domain_name_label   = "sanduba"
+  sku                 = "Standard"
+
+  tags = {
+    environment = azurerm_resource_group.main_group.tags["environment"]
   }
 }
