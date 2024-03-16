@@ -118,6 +118,13 @@ resource "azurerm_subnet" "api_auth_subnet" {
   }
 }
 
+resource "azurerm_subnet" "k8s_subnet" {
+  name                 = "fiap-tech-challenge-k8s-subnet"
+  resource_group_name  = azurerm_virtual_network.virtual_network.resource_group_name
+  virtual_network_name = azurerm_virtual_network.virtual_network.name
+  address_prefixes     = ["10.254.2.0/24"]
+}
+
 resource "azurerm_public_ip" "public_ip" {
   name                = "fiap-tech-challenge-public-ip"
   resource_group_name = azurerm_resource_group.main_group.name
