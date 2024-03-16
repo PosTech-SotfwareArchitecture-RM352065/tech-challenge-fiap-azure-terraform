@@ -11,10 +11,10 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      ARM_CLIENT_ID: ${{ secrets.AZURE_MAIN_GROUP_CLIENT_ID }}
-      ARM_CLIENT_SECRET: ${{ secrets.AZURE_MAIN_GROUP_CLIENT_SECRET }}
-      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_MAIN_GROUP_SUBSCRIPTION_ID }}
-      ARM_TENANT_ID: ${{ secrets.AZURE_MAIN_GROUP_TENANT_ID }}
+      ARM_CLIENT_ID: ${{ secrets.AZURE_SERVICE_PRINCIPAL_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.AZURE_SERVICE_PRINCIPAL_CLIENT_SECRET }}
+      ARM_TENANT_ID: ${{ secrets.AZURE_SERVICE_PRINCIPAL_TENANT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SERVICE_PRINCIPAL_SUBSCRIPTION_ID }}
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     # Set the working directory to main for the config files
