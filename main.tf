@@ -130,6 +130,15 @@ resource "azurerm_subnet" "payment_subnet" {
   resource_group_name  = azurerm_virtual_network.virtual_network.resource_group_name
   virtual_network_name = azurerm_virtual_network.virtual_network.name
   address_prefixes     = ["10.0.3.0/24"]
+
+  delegation {
+    name = "fiap-tech-challenge-payment-subnet-delegation"
+
+    service_delegation {
+      name    = "Microsoft.Web/serverFarms"
+      actions = ["Microsoft.Network/virtualNetworks/subnets/join/action", "Microsoft.Network/virtualNetworks/subnets/prepareNetworkPolicies/action"]
+    }
+  }
 }
 
 resource "azurerm_public_ip" "public_ip" {
