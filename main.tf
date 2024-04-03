@@ -88,7 +88,7 @@ resource "azurerm_virtual_network" "virtual_network" {
   name                = "fiap-tech-challenge-network"
   resource_group_name = azurerm_resource_group.main_group.name
   location            = azurerm_resource_group.main_group.location
-  address_space       = ["10.254.0.0/16"]
+  address_space       = ["10.0.0.0/16"]
 
   tags = {
     environment = azurerm_resource_group.main_group.tags["environment"]
@@ -99,14 +99,14 @@ resource "azurerm_subnet" "api_gateway_subnet" {
   name                 = "fiap-tech-challenge-gateway-subnet"
   resource_group_name  = azurerm_virtual_network.virtual_network.resource_group_name
   virtual_network_name = azurerm_virtual_network.virtual_network.name
-  address_prefixes     = ["10.254.0.0/24"]
+  address_prefixes     = ["10.0.0.0/24"]
 }
 
 resource "azurerm_subnet" "api_auth_subnet" {
   name                 = "fiap-tech-challenge-auth-subnet"
   resource_group_name  = azurerm_virtual_network.virtual_network.resource_group_name
   virtual_network_name = azurerm_virtual_network.virtual_network.name
-  address_prefixes     = ["10.254.1.0/24"]
+  address_prefixes     = ["10.0.1.0/24"]
 
   delegation {
     name = "fiap-tech-challenge-auth-subnet-delegation"
@@ -122,7 +122,14 @@ resource "azurerm_subnet" "k8s_subnet" {
   name                 = "fiap-tech-challenge-k8s-subnet"
   resource_group_name  = azurerm_virtual_network.virtual_network.resource_group_name
   virtual_network_name = azurerm_virtual_network.virtual_network.name
-  address_prefixes     = ["10.254.2.0/24"]
+  address_prefixes     = ["10.0.2.0/24"]
+}
+
+resource "azurerm_subnet" "payment_subnet" {
+  name                 = "fiap-tech-challenge-payment-subnet"
+  resource_group_name  = azurerm_virtual_network.virtual_network.resource_group_name
+  virtual_network_name = azurerm_virtual_network.virtual_network.name
+  address_prefixes     = ["10.0.3.0/24"]
 }
 
 resource "azurerm_public_ip" "public_ip" {
