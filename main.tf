@@ -103,13 +103,13 @@ resource "azurerm_subnet" "api_gateway_subnet" {
 }
 
 resource "azurerm_subnet" "api_auth_subnet" {
-  name                 = "fiap-tech-challenge-auth-subnet"
+  name                 = "fiap-tech-challenge-costumer-subnet"
   resource_group_name  = azurerm_virtual_network.virtual_network.resource_group_name
   virtual_network_name = azurerm_virtual_network.virtual_network.name
   address_prefixes     = ["10.0.1.0/24"]
 
   delegation {
-    name = "fiap-tech-challenge-auth-subnet-delegation"
+    name = "fiap-tech-challenge-costumer-subnet-delegation"
 
     service_delegation {
       name    = "Microsoft.Web/serverFarms"
