@@ -118,8 +118,8 @@ resource "azurerm_subnet" "api_auth_subnet" {
   }
 }
 
-resource "azurerm_subnet" "k8s_subnet" {
-  name                 = "fiap-tech-challenge-k8s-subnet"
+resource "azurerm_subnet" "order_subnet" {
+  name                 = "fiap-tech-challenge-order-subnet"
   resource_group_name  = azurerm_virtual_network.virtual_network.resource_group_name
   virtual_network_name = azurerm_virtual_network.virtual_network.name
   address_prefixes     = ["10.0.2.0/24"]
@@ -142,13 +142,13 @@ resource "azurerm_subnet" "payment_subnet" {
 }
 
 resource "azurerm_subnet" "cart_subnet" {
-  name                 = "fiap-tech-challenge-cart-subnet"
+  name                 = "fiap-tech-challenge-admin-subnet"
   resource_group_name  = azurerm_virtual_network.virtual_network.resource_group_name
   virtual_network_name = azurerm_virtual_network.virtual_network.name
   address_prefixes     = ["10.0.4.0/24"]
 
   delegation {
-    name = "fiap-tech-challenge-cart-subnet-delegation"
+    name = "fiap-tech-challenge-admin-subnet-delegation"
 
     service_delegation {
       name    = "Microsoft.Web/serverFarms"
