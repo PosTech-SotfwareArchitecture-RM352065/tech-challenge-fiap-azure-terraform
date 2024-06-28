@@ -1,17 +1,17 @@
 variable "resource_group_location" {
   type      = string
   sensitive = false
-  default   = "eastus"
+  default   = ""
 }
 
 variable "resource_group_name" {
   type      = string
   sensitive = false
-  default   = "fiap-tech-challenge-main-group"
+  default   = ""
 }
 
 variable "environment" {
   type      = string
   sensitive = false
-  default   = "development"
+  default   = ""
 }

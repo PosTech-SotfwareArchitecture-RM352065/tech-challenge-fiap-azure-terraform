@@ -24,12 +24,19 @@ provider "azurerm" {
 
 data "azurerm_client_config" "current_config" {}
 
+data "azurerm_subscription" "current" {
+}
+
+resource "azurerm_management_group" "management-group" {
+  display_name = "fiap-tech-challenge-management-group"
+}
+
 resource "azurerm_resource_group" "main_group" {
   name     = "fiap-tech-challenge-main-group"
-  location = "eastus"
+  location = var.location
 
   tags = {
-    environment = "development"
+    environment = var.environment
   }
 }
 

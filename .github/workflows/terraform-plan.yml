@@ -13,6 +13,7 @@ jobs:
       pull-requests: write
 
     env:
+      TF_VAR_location: ${{ vars.AZURE_LOCATION }}
       ARM_CLIENT_ID: ${{ secrets.AZURE_SERVICE_PRINCIPAL_CLIENT_ID }}
       ARM_CLIENT_SECRET: ${{ secrets.AZURE_SERVICE_PRINCIPAL_CLIENT_SECRET }}
       ARM_TENANT_ID: ${{ secrets.AZURE_SERVICE_PRINCIPAL_TENANT_ID }}
@@ -28,6 +29,17 @@ jobs:
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
       uses: actions/checkout@v4
+
+    - name: Set environment variable
+      id: set-env
+      run: |
+        if [[ "${GITHUB_REF}" == "refs/heads/main" ]]; then
+          echo "TF_VAR_environment=production" >> $GITHUB_ENV
+        elif [[ "${GITHUB_REF}" == "refs/heads/develop" ]]; then
+          echo "TF_VAR_environment=staging" >> $GITHUB_ENV
+        else
+          echo "TF_VAR_environment=default" >> $GITHUB_ENV
+        fi
 
     # Install the preferred version of Terraform CLI 
     - name: Setup Terraform

@@ -1,10 +1,4 @@
-variable "resource_group_location" {
-  type      = string
-  sensitive = false
-  default   = ""
-}
-
-variable "resource_group_name" {
+variable "location" {
   type      = string
   sensitive = false
   default   = ""
